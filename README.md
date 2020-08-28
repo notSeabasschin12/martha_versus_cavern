@@ -4,5 +4,5 @@ Code written to navigate a maze in order to find a gem, then exit the maze while
 Only the files with code that I wrote are in this repository. Files containing classes for edges, nodes, and the graphical interface were provided to us by the instructors.
 
 Files:
-Pollack.java contains the methods to navigate and exit the maze. 
-path.java contains Dijkstra's algorithm (lines 51-104 were provided to us).
+Pollack.java: contains the methods to navigate and exit the maze. 
+path.java: contains Dijkstra's algorithm (lines 51-104 were provided to us).
