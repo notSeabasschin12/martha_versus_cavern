@@ -1,10 +1,3 @@
-
-/** NetId(s): djg17
- * Name(s): David Gries
- *
- *
- *
- */
 package submit;
 
 import java.util.HashMap;
