@@ -140,15 +140,14 @@ public class Pollack extends Finder {
     @Override
     public void scram(ScramState state) {
         List<Node> shortestPath= Path.shortest(state.currentNode(), state.getExit());
-        boolean flag= true;
         List<Node> nearestPath;
         List<Node> goldPath;
 
-        while (flag) {
+        while (true) {
             Node nearest= findNearestGold(state);
             if (nearest != null) {
-                nearestPath= Path.shortest(state.currentNode(), nearest);
-                goldPath= Path.shortest(nearest, state.getExit());
+                nearestPath= Path.shortest(state.currentNode(), nearest); // Node path to nearest gold tile
+                goldPath= Path.shortest(nearest, state.getExit()); // Node path from nearest gold tile to exit
                 if (totalLength(nearestPath) + totalLength(goldPath) < state.stepsLeft()) {
                     for (Node n : nearestPath) {
                         Node originalLocation= state.currentNode();
@@ -157,12 +156,9 @@ public class Pollack extends Finder {
                         }
                         shortestPath= Path.shortest(nearest, state.getExit());
                     }
-                } else {
-                    flag= false;
-                }
-            } else {
-                flag= false;
-            }
+                } 
+                else {break}
+            } else {break}
         }
 
         Node originalLocation= state.currentNode();
@@ -179,6 +175,7 @@ public class Pollack extends Finder {
     private Node findNearestGold(ScramState state) {
         Collection<Node> all= state.allNodes();
         ArrayList<Node> nodesGold= new ArrayList<>();
+        // Get all nodes with gold on them
         for (Node n : all) {
             if (n.getTile().gold() != 0) {
                 nodesGold.add(n);
@@ -188,8 +185,8 @@ public class Pollack extends Finder {
         int min= Integer.MAX_VALUE;
         List<Node> shortest;
         for (Node x : nodesGold) {
-            shortest= Path.shortest(state.currentNode(), x);
-            int path= totalLength(shortest);
+            shortest= Path.shortest(state.currentNode(), x); // Calculate node path to nodes with gold on them
+            int path= totalLength(shortest); // Calculate steps to that tile
             if (path < min) {
                 min= path;
                 closest= x;
@@ -199,7 +196,7 @@ public class Pollack extends Finder {
     }
 
     /** Given a list of Nodes in a path, calculate the total distance from the starting node to the
-     * end. */
+     * end. nodeList is calculated using Djikstra's algorithm. */
     private int totalLength(List<Node> nodeList) {
         int totalDist= 0;
         List<Integer> visited= new ArrayList<>();
